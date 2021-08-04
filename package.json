@@ -38,7 +38,7 @@
         "fix": "eslint --fix 'lib/ace/**/*.js'"
     },
     "dependencies": {
-        "cson": "^7.20.0",
+        "cson": "5.1.0",
         "plist": "1.2.0"
     }
 }
