@@ -12,6 +12,10 @@ pre_build:
 
 build: pre_build
 	./Makefile.dryice.js full
+	make build-esm
+
+build-esm:
+	yarn build:esm
 
 # Minimal build: call Makefile.dryice.js only if our sources changed
 basic: build/src/ace.js
