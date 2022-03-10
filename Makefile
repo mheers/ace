@@ -12,6 +12,7 @@ pre_build:
 
 build: pre_build
 	./Makefile.dryice.js full
+	cp package.json.build build/package.json
 	make build-esm
 
 build-esm:
