@@ -1,20 +1,21 @@
 import commonjs from "@rollup/plugin-commonjs";
 
-import * as fs from "fs";
+import recursive from "recursive-readdir";
 
 const buildDir = "./build";
 const inDir = `${buildDir}/src-min-noconflict`;
 const outDir = `${buildDir}/esm`;
 
-const files = getFiles(inDir);
-
-const configs = files.map(getConfig);
-
-export default configs;
+export default async () => {
+  return recursive(inDir).then((f) => {
+    const files = f.filter((file) => file.endsWith(".js"));
+    return files.map(getConfig);
+  });
+};
 
 function getConfig(file) {
   return {
-    input: `${inDir}/${file}`,
+    input: `${file}`,
     plugins: [
       commonjs({
         extensions: [".js", ".mjs"],
@@ -25,15 +26,10 @@ function getConfig(file) {
 
     output: [
       {
-        file: `${outDir}/${file}`,
+        file: `${outDir}/${file}`.replace(inDir.replace(".", ""), ""),
         format: "es",
         freeze: false,
       },
     ],
   };
-}
-
-function getFiles(folder) {
-  const f = fs.readdirSync(folder);
-  return f.filter((file) => file.endsWith(".js"));
 }
